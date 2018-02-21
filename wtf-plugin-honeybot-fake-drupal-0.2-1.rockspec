@@ -1,8 +1,8 @@
 package = "wtf-plugin-honeybot-fake-drupal"
-version = "0.1-1"
+version = "0.2-1"
 source = {
    url = "git+https://github.com/honeybot/wtf-plugin-honeybot-fake-drupal",
-   tag = "0.1"
+   tag = "0.2"
 }
 description = {
    homepage = "https://github.com/honeybot/wtf-plugin-honeybot-fake-drupal",
@@ -15,6 +15,6 @@ dependencies = {
 build = {
    type = "builtin",
    modules = {
-      ["wtf.plugins.honeybot.fake.drupal.module"] = "wtf/plugins/honeybot/fake/wordpress/module.lua"
+      ["wtf.plugins.honeybot.fake.drupal.module"] = "wtf/plugins/honeybot/fake/drupal/module.lua"
    }
 }
