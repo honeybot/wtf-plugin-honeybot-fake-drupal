@@ -8,6 +8,7 @@ local _M = Plugin:extend()
 _M.name = "honeybot.fake.drupal"
 
 function send_response(state,headers,content)
+    ngx.ctx.response_from_lua = 1
     ngx.status = state
     if headers then
         for key,val in pairs(headers) do
@@ -70,8 +71,10 @@ function _M:body_filter(...)
     local version = self:get_optional_parameter('version')
     local path = self:get_optional_parameter('path')
 
-    ngx.arg[1] = ngx.re.gsub(ngx.arg[1],'<meta name="[gG]enerator" content="Drupal[^>]*>', "")
-    ngx.arg[1] = ngx.re.gsub(ngx.arg[1],'<head>', '<head>\n<meta name="Generator" content="Drupal '.. string.sub(version,1,1) .. ' (https://www.drupal.org) />\n<!--\n/core/misc/drupal.js\n/core/misc/ajax.js\n/core/misc/tableheader.js\n/core/misc/tabledrag.js\n-->\n')
+    if not ngx.ctx.response_from_lua then
+        ngx.arg[1] = ngx.re.gsub(ngx.arg[1],'<meta name="[gG]enerator" content="Drupal[^>]*>', "")
+        ngx.arg[1] = ngx.re.gsub(ngx.arg[1],'<head>', '<head>\n<meta name="Generator" content="Drupal '.. string.sub(version,1,1) .. ' (https://www.drupal.org) />\n<!--\n/core/misc/drupal.js\n/core/misc/ajax.js\n/core/misc/tableheader.js\n/core/misc/tabledrag.js\n-->\n')
+    end
     return self
 end
 
