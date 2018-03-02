@@ -13,7 +13,7 @@ Mandatory options:
 {
     "name": "fake-drupal",
     "version": "0.1",
-  "storages": { },
+    "storages": { },
     "plugins": {            
         "honeybot.fake.drupal": [{
 			"version": "7.21",
