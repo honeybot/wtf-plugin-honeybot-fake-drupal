@@ -46,15 +46,16 @@ function _M:access(...)
     end
 
 
-    local module_name, module_path = string.match(ngx.var.uri, "/modules/([^/]*)/?(.*)$")
-    local theme_name, theme_path = string.match(ngx.var.uri, "/themes/([^/]*)/?(.*)$")
+    local module_prefix, module_name, module_path = string.match(ngx.var.uri, "(.*)/modules/([^/]*)/?(.*)$")
+    local theme_prefix, theme_name, theme_path = string.match(ngx.var.uri, "(.*)/themes/([^/]*)/?(.*)$")
+    local temp = (module_path ~= nil and module_path ~= "") or (theme_path ~= nil and theme_path~="")
     if module_name ~= nil or theme_name ~= nil then
-        local temp = string.gsub(ngx.var.uri, "/modules/.*$", "")
-        local temp = string.gsub(temp, "/themes/.*$", "")
-        if dirs[temp] then
-            send_response(200, {["Content-Type"]="text/html;charset=UTF-8"}, "")
-        else
-            send_response(404, {["Content-Type"]="text/html;charset=UTF-8"}, "")
+        if dirs[module_prefix] or dirs[theme_prefix] then
+            if (module_path ~= nil and module_path ~= "") or (theme_path ~= nil and theme_path ~= "") then
+                send_response(200, {["Content-Type"]="text/html;charset=UTF-8"}, "Version: 1.0")
+            else
+                send_response(403, {["Content-Type"]="text/html;charset=UTF-8"}, "")
+            end
         end
     end
 
